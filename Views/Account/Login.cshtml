@@ -1,0 +1,22 @@
+﻿@model MVCNotesSaver.Models.User.LoginViewModel;
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h2>Login the site</h2>
+
+@Html.ValidationSummary("Валидация не пройдена",new {@class = "text-danger"})
+
+<form method="post" asp-action="Login">
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" class="form-control" asp-for="Email">
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" class="form-control" asp-for="Password">
+        </div>
+        <button class="btn btn-primary" type="submit">Submit</button>
+        <a class="display-2" asp-controller="Account" asp-action="Register"><h2>I want to register</h2></a>
+</form>
