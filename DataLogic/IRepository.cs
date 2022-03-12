@@ -4,6 +4,7 @@ namespace MVCNotesSaver.DataLogic;
 
 public interface IRepository
 {
+    public Task<long> GetNotesCountAsync(int userId);
     public Task<UserViewModel?> GetUserAsync(string email, string password);
     public Task<int> CreateUserAsync(string name, string email, string password);
     public Task<List<NoteViewModel>> GetNotesAsync(int userId);

@@ -4,10 +4,11 @@
 }
 
 <div class="text-center">
-    @if (User.Identity.IsAuthenticated)
+    @if (User.Identity!.IsAuthenticated)
     {
         <h1 class="display-8">Welcome, @User.Claims.FirstOrDefault(claim => claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value</h1>
         <p class="text-primary">Manage your personal notes <a asp-controller="Notes" asp-action="Index">here</a></p>
+        <p class="text-primary">You have @ViewBag.NotesCount notes</p>
     }
     @if (!User.Identity.IsAuthenticated)
     {

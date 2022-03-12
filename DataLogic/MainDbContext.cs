@@ -11,7 +11,19 @@ public class MainDbContext
 
     private string ConnectionString => Environment.GetEnvironmentVariable("DB_CONNECTION_STRING") ??
                                        "Host=localhost;Username=postgres;Password=password;Database=notesdb";
-    
+
+    public async Task<long> GetNotesCount(int userId)
+    {
+        const string query = @"
+            select count(NoteId) from Notes where Notes.UserId=(@userId);
+        ";
+        await using var connection = new NpgsqlConnection(ConnectionString);
+        await connection.OpenAsync();
+        await using var command = new NpgsqlCommand(query, connection);
+        command.Parameters.AddWithValue("@userId", userId);
+        var count = (long)(await command.ExecuteScalarAsync() ?? throw new InvalidOperationException());
+        return count;
+    }
     public async Task<UserEntity?> GetUser(string email, string password)
     {
         const string query = @"

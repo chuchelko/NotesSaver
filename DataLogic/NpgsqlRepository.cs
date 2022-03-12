@@ -10,6 +10,11 @@ public class NpgsqlRepository : IRepository
     {
         _context = context;
     }
+
+    public async Task<long> GetNotesCountAsync(int userId)
+    {
+        return await _context.GetNotesCount(userId);
+    }
     public async Task<UserViewModel?> GetUserAsync(string email, string password)
     {
         var user = await _context.GetUser(email, password);
