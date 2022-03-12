@@ -4,6 +4,7 @@
 }
 
 <form method="post">
+    <span class="text-danger" asp-validation-for="Text"></span>
     <div class="row">
         <input type="text" class="col-11 form-text" name="noteText"/>
         <input type="submit" class="col-1 btn btn-outline-black" value="Send"/>
@@ -14,7 +15,7 @@
     <thead>
     <tr>
         <th style="width: 7%" scope="col" id="notesId">Id</th>
-        <th style="width: 30%" scope="col" id="notesCreationTime">Created at</th>
+        <th style="width: 30%" scope="col" id="notesCreationTime">Time of creation</th>
         <th style="width: 63%" scope="col" id="notesText">Text</th>
     </tr>
     </thead>

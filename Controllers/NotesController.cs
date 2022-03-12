@@ -26,6 +26,11 @@ public class NotesController : Controller
     [HttpPost]
     public async Task<IActionResult> Index(string noteText)
     {
+        if (noteText == null)
+        {
+            ModelState.AddModelError("Text", "Note should have something to see..");
+            return View();
+        }
         await _repository.CreateNoteAsync(UserId, noteText);
         return View();
     }

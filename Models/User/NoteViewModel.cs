@@ -1,4 +1,6 @@
-﻿namespace MVCNotesSaver.Models.User;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MVCNotesSaver.Models.User;
 
 public class NoteViewModel
 {
