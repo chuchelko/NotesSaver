@@ -16,3 +16,10 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.btn {
+  background-color: #212121;
+}
+.btn:hover {
+  background-color: #292929;
+}

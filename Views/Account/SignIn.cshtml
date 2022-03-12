@@ -3,7 +3,7 @@
     ViewData["Title"] = "SignIn";
 }
 
-<h2 class="text-center">Sign in</h2>
+<h2 class="text-center mb-3">Sign in</h2>
 <div class="d-flex justify-content-center">
     <form asp-antiforgery="true" method="post" asp-action="SignIn">
         <div asp-validation-summary="ModelOnly"></div>
@@ -11,17 +11,17 @@
         {
             <div class="text-danger">User doesn't exitst.</div>
         }
-        <div class="form-group">
+        <div class="form-group mb-3">
             <input type="email" placeholder="Email" class="form-control" asp-for="Email">
             <span class="text-danger" asp-validation-for="Email"></span>
         </div>
-        <div class="form-group">
+        <div class="form-group mb-3">
             <input type="password" placeholder="Password" class="form-control" asp-for="Password">
             <span class="text-danger" asp-validation-for="Password"></span>
         </div>
-        <a class="text-black text-center" asp-controller="Account" asp-action="SignUp"><div>I want to sign up</div></a>
-        <div class="text-center">
-            <button class="btn btn-black btn-block" type="submit">Submit</button>
+        <a class="text-black text-center mb-3" asp-controller="Account" asp-action="SignUp"><div>I want to sign up</div></a>
+        <div class="text-center mt-3">
+            <button class="btn btn-dark" type="submit">Submit</button>
         </div>
     </form>
 </div>

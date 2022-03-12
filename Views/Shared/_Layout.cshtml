@@ -10,9 +10,9 @@
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+    <nav class="navbar navbar-expand-sm bg-dark mb-3">
         <div class="container-fluid">
-            <a class="navbar-brand p-3" asp-area="" asp-controller="Home" asp-action="Index">MVCNotesSaver</a>
+            <a class="navbar-brand text-light p-3" asp-area="" asp-controller="Home" asp-action="Index">MVCNotesSaver</a>
             <div class="navbar-dark">
                 <ul class="navbar-nav d-inline-flex">
                     @if (!User.Identity!.IsAuthenticated)
@@ -26,7 +26,7 @@
                     }
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li class="nav-item m-3 text-light">@User.Claims.FirstOrDefault(claim => claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value</li>
+                        <li style="display: flex; justify-content: center; align-items: center;" class="nav-item m-3 text-light">@User.Claims.FirstOrDefault(claim => claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value</li>
                         <li class="nav-item m-3">
                             <a class="nav-link text-light" asp-controller="Notes" asp-action="Index"> Notes</a>
                         </li>
