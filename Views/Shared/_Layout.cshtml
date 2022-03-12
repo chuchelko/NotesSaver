@@ -10,30 +10,28 @@
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
         <div class="container-fluid">
-            <a class="navbar-brand bg-dark text-light p-3" asp-area="" asp-controller="Home" asp-action="Index">MVCNotesSaver</a>
+            <a class="navbar-brand p-3" asp-area="" asp-controller="Home" asp-action="Index">MVCNotesSaver</a>
             <div class="navbar-dark">
                 <ul class="navbar-nav d-inline-flex">
-                    <li class="nav-item m-3 bg-dark">
-                        <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
                     @if (!User.Identity!.IsAuthenticated)
                     {
-                        <li class="nav-item m-3 bg-dark">
-                            <a class="nav-link text-light" asp-controller="Account" asp-action="Login">Log in</a>
+                        <li class="nav-item m-3">
+                            <a class="nav-link text-light" asp-controller="Account" asp-action="SignIn">Sign in</a>
                         </li>
-                        <li class="nav-item m-3 bg-dark">
-                            <a class="nav-link text-light" asp-controller="Account" asp-action="Register">Register</a>
+                        <li class="nav-item m-3">
+                            <a class="nav-link text-light" asp-controller="Account" asp-action="SignUp">Sign up</a>
                         </li>
                     }
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li class="nav-item m-3 bg-dark">
+                        <li class="nav-item m-3 text-light">@User.Claims.FirstOrDefault(claim => claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value</li>
+                        <li class="nav-item m-3">
                             <a class="nav-link text-light" asp-controller="Notes" asp-action="Index"> Notes</a>
                         </li>
-                        <li class="nav-item m-3 bg-dark">
-                            <a class="nav-link text-light" asp-controller="Account" asp-action="Sign_out">Exit</a>
+                        <li class="nav-item m-3">
+                            <a class="nav-link text-light" asp-controller="Account" asp-action="Sign_out">Sign out</a>
                         </li>
                     }
                 </ul>
@@ -49,7 +47,7 @@
 
 <footer class="border-top footer text-muted">
     <div class="container">
-        &copy; 2022 - MVCNotesSaver - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        &copy; 2022 - MVCNotesSaver
     </div>
 </footer>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>

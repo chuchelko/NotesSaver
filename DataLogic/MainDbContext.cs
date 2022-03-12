@@ -10,7 +10,7 @@ public class MainDbContext
 {
 
     private string ConnectionString => Environment.GetEnvironmentVariable("DB_CONNECTION_STRING") ??
-                                          throw new EnvironmentException("Db connection string is empty");
+                                       "Host=localhost;Username=postgres;Password=password;Database=notesdb";
     
     public async Task<UserEntity?> GetUser(string email, string password)
     {

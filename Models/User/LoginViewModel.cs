@@ -12,4 +12,6 @@ public class LoginViewModel
     [PasswordPropertyText] 
     [MinLength(length: 4, ErrorMessage = "At least 4 characters")]
     public string Password { get; set; }
+
+    public bool UserDoesntExist = false;
 }

@@ -7,7 +7,10 @@ using MVCNotesSaver.Defaults;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.ModelBindingMessageProvider.SetValueMustBeANumberAccessor( _ => "This field is required.");
+});
 
 var authOptions = new AuthDefaults(builder.Configuration);
 

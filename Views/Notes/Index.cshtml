@@ -1,32 +1,56 @@
-﻿@model System.Collections.Generic.List<MVCNotesSaver.Models.User.NoteViewModel>
+﻿@model MVCNotesSaver.Models.User.NoteViewModel
 @{
     ViewData["Title"] = "Home Page";
 }
 
 <form method="post">
-    <input type="text" class="form-text" name="noteText"/>
-    <input type="submit" class="form-control" value="Send"/>
+    <div class="row">
+        <input type="text" class="col-11 form-text" name="noteText"/>
+        <input type="submit" class="col-1 btn btn-outline-black" value="Send"/>
+    </div>
 </form>
 
-<table>
+<table class="col-12 table table-striped table-dark table-hover table-bordered">
     <thead>
     <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Created at</th>
-        <th scope="col">Text</th>
+        <th style="width: 7%" scope="col" id="notesId">Id</th>
+        <th style="width: 30%" scope="col" id="notesCreationTime">Created at</th>
+        <th style="width: 63%" scope="col" id="notesText">Text</th>
     </tr>
     </thead>
-    <tbody>
-    @if (Model != null)
-    {
-        foreach (var note in Model)
-        {
-            <tr>
-                <td>@note.Id</td>
-                <td>@note.Created</td>
-                <td>@note.Text</td>
-            </tr>
-        }
-    }
+    <tbody id="notesBody">
     </tbody>
 </table>
+
+@section Scripts
+{
+    <script>
+            $(function (){
+                console.log("EE");
+                $.ajax({
+                    url: "@Url.Action("GetNotes", "Notes")",
+                    method: "GET",
+                    data: {},
+                    success: function(response) {
+                        console.log(response);
+                        $('#notesBody').children().remove();
+                        $.each(response, function(i, item) {
+                            let result = $('<tr>').append(
+                                $('<td>').text(i),
+                                $('<td>').text(item.created),
+                                $('<td>').text(item.text),
+                                );
+                            $('#notesBody').append(result);
+                        });
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log(XMLHttpRequest);
+                        console.log(textStatus);
+                        console.log(errorThrown);
+                    },
+                    
+                });
+            });
+    </script>
+
+}

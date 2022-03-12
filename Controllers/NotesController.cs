@@ -20,14 +20,20 @@ public class NotesController : Controller
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        var notes = await _repository.GetNotesAsync(UserId);
-        return View(notes);
+        return View();
     }
 
     [HttpPost]
     public async Task<IActionResult> Index(string noteText)
     {
         await _repository.CreateNoteAsync(UserId, noteText);
-        return RedirectToAction("Index");
+        return View();
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetNotes()
+    {
+        var notes = await _repository.GetNotesAsync(UserId);
+        return Json(notes);
     }
 }

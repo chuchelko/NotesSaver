@@ -26,7 +26,7 @@ public class AccountController : Controller
     
     [HttpGet]
     [AllowAnonymous]
-    public IActionResult Login()
+    public IActionResult SignIn()
     {
         return View();
     }
@@ -34,16 +34,23 @@ public class AccountController : Controller
     [HttpPost]
     [AllowAnonymous]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Login(LoginViewModel loginData)
+    public async Task<IActionResult> SignIn(LoginViewModel loginData)
     {
+        if (!ModelState.IsValid)
+            return View(loginData);
+        
         var user = await _repository.GetUserAsync(loginData.Email, loginData.Password);
-        //_logger.Log(LogLevel.Information ,$"{user?.Email}, {user?.Id}, {user?.Password}");
-        if (user == null) return View(loginData);
+
+        if (user == null)
+        {
+            loginData.UserDoesntExist = true;
+            return View(loginData);
+        }
+        
         HttpContext.Response.Cookies.Append("Authentication.Token", GenerateJwtToken(user), new CookieOptions
         {
             MaxAge = TimeSpan.FromMinutes(30)
         });
-        //return Ok(GenerateJwtToken(user));
         return RedirectToAction("Index", "Home");
     }
 
@@ -69,7 +76,7 @@ public class AccountController : Controller
 
     [HttpGet]
     [AllowAnonymous]
-    public IActionResult Register(string returnUrl)
+    public IActionResult SignUp(string returnUrl)
     {
         return View();
     }
@@ -77,19 +84,20 @@ public class AccountController : Controller
     [HttpPost]
     [AllowAnonymous]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Register(RegisterViewModel registerVm)
+    public async Task<IActionResult> SignUp(RegisterViewModel registerData)
     {
         if(!ModelState.IsValid)
-            return new RedirectResult(Url.Action("Register"));
+            return View(registerData);
 
 
         try
         {
-            await _repository.CreateUserAsync(registerVm.Name, registerVm.Email, registerVm.Password);
+            await _repository.CreateUserAsync(registerData.Name, registerData.Email, registerData.Password);
         }
         catch (EmailIsAlreadyTakenException e)
         {
-            return new RedirectResult(Url.Action("Register"));
+            ModelState.AddModelError("Email", "Email is already taken.");
+            return View(registerData);
         }
 
         return RedirectToAction("Index", "Home");
