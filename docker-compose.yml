@@ -1,0 +1,30 @@
+﻿version: '3.4'
+
+services:
+  web:
+    container_name: web_container
+    build: .
+    depends_on:
+      - "db"
+    ports:
+      - "8000:80"
+    environment:
+      DB_CONNECTION_STRING: "Host=db;Port=5432;Username=postgres;Password=password;Database=notesdb"
+      KEY: "$$as9a9d2(hd@32fd%$$7#sdhs&&"
+  
+  db:
+    container_name: db_container
+    image: postgres:latest
+    ports:
+      - "5432"
+    restart: always
+    volumes:
+      - data:/var/lib/postgresql/data
+      - ./dbscripts/seed.sql:/docker-entrypoint-initdb.d/seed.sql
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_DB: "notesdb"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+volumes:
+  data:

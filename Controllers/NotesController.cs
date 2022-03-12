@@ -1,9 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MVCNotesSaver.DataLogic;
-using MVCNotesSaver.Models.User;
 
 namespace MVCNotesSaver.Controllers;
 

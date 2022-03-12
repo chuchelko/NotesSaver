@@ -20,7 +20,7 @@ public static class MatchHelper
     {
         return new NoteViewModel
         {
-            Created = noteEntity.Created, //DateTime.Parse(noteEntity.Created),
+            Created = noteEntity.Created,
             Text = noteEntity.Text,
             Id = noteEntity.Id
         };

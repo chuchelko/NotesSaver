@@ -12,6 +12,6 @@ public class AuthDefaults
     }
     public string Issuer => _configuration.GetSection("Auth").GetSection("Issuer").Value;
     public string Audience => _configuration.GetSection("Auth").GetSection("Audience").Value;
-    private string Key => _configuration.GetSection("Auth").GetSection("Key").Value;
+    private string Key => Environment.GetEnvironmentVariable("KEY") ?? throw new InvalidOperationException();
     public SymmetricSecurityKey SymmetricSecurityKey => new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Key));
 }

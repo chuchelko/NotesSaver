@@ -11,7 +11,7 @@ builder.Services.AddControllersWithViews();
 
 var authOptions = new AuthDefaults(builder.Configuration);
 
-builder.Services.AddTransient<MainDbContext>();
+builder.Services.AddSingleton<MainDbContext>();
 builder.Services.AddTransient<IRepository, NpgsqlRepository>();
 builder.Services.AddLogging(builder =>
 {

@@ -8,20 +8,17 @@ namespace MVCNotesSaver.DataLogic;
 
 public class MainDbContext
 {
-    private readonly IConfiguration _configuration;
 
-    public MainDbContext(IConfiguration conf)
-    {
-        _configuration = conf;
-    }
-
+    private string ConnectionString => Environment.GetEnvironmentVariable("DB_CONNECTION_STRING") ??
+                                          throw new EnvironmentException("Db connection string is empty");
+    
     public async Task<UserEntity?> GetUser(string email, string password)
     {
         const string query = @"
             select UserId, UserName, UserEmail, UserPasswordHash, UserPasswordSalt from Users
             where Users.UserEmail = ($1);
         ";
-        await using var connection = new NpgsqlConnection(_configuration.GetConnectionString("NpgsqlCon"));
+        await using var connection = new NpgsqlConnection(ConnectionString);
         await connection.OpenAsync();
         await using var command = new NpgsqlCommand(query, connection)
         {
@@ -62,12 +59,12 @@ public class MainDbContext
             insert into Users (UserName, UserEmail, UserPasswordHash, UserPasswordSalt) 
             values (($1), ($2), ($3), ($4)) returning UserId;
         ";
-        await using var connection = new NpgsqlConnection(_configuration.GetConnectionString("NpgsqlCon"));
+        await using var connection = new NpgsqlConnection(ConnectionString);
         await connection.OpenAsync();
         
         await using var findEmailsCommand = new NpgsqlCommand(findEmailsQuery, connection);
         findEmailsCommand.Parameters.AddWithValue(email);
-        var emailsCount = (Int64) (await findEmailsCommand.ExecuteScalarAsync());
+        var emailsCount = (Int64) (await findEmailsCommand.ExecuteScalarAsync())!;
         if (emailsCount > 0)
             throw new EmailIsAlreadyTakenException("Email is already taken.");
 
@@ -91,7 +88,7 @@ public class MainDbContext
         const string query = @"
             select NoteId, NoteText, NoteCreatedTime from Notes where Notes.UserId=(@userId);
         ";
-        await using var connection = new NpgsqlConnection(_configuration.GetConnectionString("NpgsqlCon"));
+        await using var connection = new NpgsqlConnection(ConnectionString);
         await connection.OpenAsync();
         await using var command = new NpgsqlCommand(query, connection);
         command.Parameters.AddWithValue("@userId", userId);
@@ -117,7 +114,7 @@ public class MainDbContext
         const string query = @"
             insert into Notes (UserId, NoteText, NoteCreatedTime) values ((@userId), (@text), (@createdAt)) returning NoteId;
         ";
-        await using var connection = new NpgsqlConnection(_configuration.GetConnectionString("NpgsqlCon"));
+        await using var connection = new NpgsqlConnection(ConnectionString);
         await connection.OpenAsync();
         await using var command = new NpgsqlCommand(query, connection);
         command.Parameters.AddWithValue("@userId", userId);
